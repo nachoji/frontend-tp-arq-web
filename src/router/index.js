@@ -1,0 +1,27 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import HomePortal from '@/views/HomePortal.vue'
+import RegistroView from '@/views/RegistroView.vue'
+import InicioSesionView from '@/views/InicioSesionView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomePortal,
+    },
+    {
+      path: '/registro',
+      name: 'registro',
+      component: RegistroView,
+    },
+    {
+      path: '/iniciar-sesion',
+      name: 'login',
+      component: InicioSesionView,
+    },
+  ],
+})
+
+export default router
