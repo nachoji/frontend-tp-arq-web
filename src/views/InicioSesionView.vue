@@ -6,6 +6,10 @@
       alt="Fondo"
     />
     <div class="auth-box">
+      <router-link to="/" class="btn-cerrar-form" title="Volver a la página principal">
+        <i class="bi bi-x-lg"></i>
+      </router-link>
+
       <img src="/logo.svg" alt="PortalDev News Logo" class="auth-logo" />
 
       <h3 class="auth-title">Iniciar Sesión</h3>
@@ -116,6 +120,26 @@ const handleLogin = () => {
   z-index: 0;
 }
 
+.btn-cerrar-form {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  text-decoration: none;
+  color: #555;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.5em;
+  line-height: 1;
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.btn-cerrar-form:hover {
+  color: #000;
+}
+
 .auth-box {
   background: rgba(255, 255, 255, 0.95);
   padding: 40px;
@@ -131,11 +155,9 @@ const handleLogin = () => {
 .auth-logo {
   width: 300px;
   height: auto;
-
   display: block;
   margin-left: auto;
   margin-right: auto;
-
   margin-bottom: 30px;
 }
 
@@ -179,7 +201,6 @@ const handleLogin = () => {
   background-color: #f0f0f0;
 }
 
-/* Separador "ó" */
 .separator {
   display: flex;
   align-items: center;
@@ -200,7 +221,6 @@ const handleLogin = () => {
   margin-left: 0.25em;
 }
 
-/* Formulario */
 .auth-form {
   text-align: left;
 }

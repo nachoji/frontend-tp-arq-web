@@ -6,6 +6,10 @@
       alt="Fondo"
     />
     <div class="auth-box">
+      <router-link to="/" class="btn-cerrar-form" title="Volver a la página principal">
+        <i class="bi bi-x-lg"></i>
+      </router-link>
+
       <img src="/logo.svg" alt="PortalDev News Logo" class="auth-logo" />
 
       <h3 class="auth-title">Registrarse</h3>
@@ -57,22 +61,19 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue' // 💡 Importamos 'computed'
+import { ref, computed } from 'vue'
 
 const registro = ref({
   email: '',
   password: '',
 })
 
-// Estado para controlar si la contraseña es visible o no (inicialmente oculta)
 const isPasswordVisible = ref(false)
 
-// Propiedad computada que define el 'type' del input ('password' o 'text')
 const passwordFieldType = computed(() => {
   return isPasswordVisible.value ? 'text' : 'password'
 })
 
-// Función para alternar la visibilidad
 const togglePasswordVisibility = () => {
   isPasswordVisible.value = !isPasswordVisible.value
 }
@@ -84,7 +85,6 @@ const handleRegister = () => {
 </script>
 
 <style scoped>
-/* Contenedor centralizado */
 .auth-page-container {
   position: relative;
   display: flex;
@@ -105,7 +105,6 @@ const handleRegister = () => {
   z-index: 1;
 }
 
-/* Imagen de fondo a pantalla completa */
 .background-image {
   position: fixed;
   top: 0;
@@ -115,6 +114,26 @@ const handleRegister = () => {
   object-fit: cover;
   pointer-events: none;
   z-index: 0;
+}
+
+.btn-cerrar-form {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  text-decoration: none;
+  color: #555;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.5em;
+  line-height: 1;
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.btn-cerrar-form:hover {
+  color: #000;
 }
 
 .auth-box {
@@ -130,16 +149,11 @@ const handleRegister = () => {
 }
 
 .auth-logo {
-  /* Controla el tamaño de la imagen */
-  width: 300px; /* Ajusta este valor al tamaño real de tu logo InfoExpress */
+  width: 300px;
   height: auto;
-
-  /* Asegura que la imagen esté centrada */
   display: block;
   margin-left: auto;
   margin-right: auto;
-
-  /* Margen inferior para separarlo del título */
   margin-bottom: 30px;
 }
 
@@ -149,7 +163,6 @@ const handleRegister = () => {
   margin-bottom: 25px;
 }
 
-/* Redes Sociales */
 .social-login {
   margin-bottom: 25px;
 }
@@ -184,7 +197,6 @@ const handleRegister = () => {
   background-color: #f0f0f0;
 }
 
-/* Separador "ó" */
 .separator {
   display: flex;
   align-items: center;
@@ -205,7 +217,6 @@ const handleRegister = () => {
   margin-left: 0.25em;
 }
 
-/* Formulario */
 .auth-form {
   text-align: left;
 }
@@ -221,19 +232,15 @@ const handleRegister = () => {
   margin-bottom: 5px;
 }
 
-/* NUEVO: Contenedor del campo de contraseña */
 .password-input-wrapper {
-  position: relative; /* CLAVE: Punto de referencia para el botón 'toggle' */
-  display: flex; /* Asegura que el input y el botón se alineen (aunque el botón esté absolute) */
+  position: relative;
+  display: flex;
   align-items: center;
 }
 
-/* Ajuste del Input para dejar espacio al icono */
 .form-group input {
-  /* Mantenemos width: 100% */
   width: 100%;
   padding: 10px;
-  /* 💡 Ajuste: Añadir padding a la derecha para que el texto no se oculte detrás del botón */
   padding-right: 40px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -241,34 +248,32 @@ const handleRegister = () => {
   box-sizing: border-box;
 }
 
-/* NUEVO: Botón de alternancia de contraseña (el ojo) */
 .btn-toggle-password {
-  position: absolute; /* Flota sobre el input */
-  right: 1px; /* Pegado al borde derecho */
+  position: absolute;
+  right: 1px;
   top: 50%;
-  transform: translateY(-50%); /* Centrado verticalmente */
-
+  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
   padding: 8px;
-  color: #777; /* Color sutil */
+  color: #777;
   line-height: 1;
   transition: color 0.2s;
 }
 
 .btn-toggle-password:hover {
-  color: #333; /* Resalta al pasar el ratón */
+  color: #333;
 }
 
 .btn-toggle-password i {
-  font-size: 1.5em; /* Ajusta el tamaño del icono de Bootstrap */
+  font-size: 1.5em;
 }
 
 .btn-primary {
   width: 100%;
   padding: 10px;
-  background-color: #007bff; /* Azul primario */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
@@ -283,7 +288,6 @@ const handleRegister = () => {
   background-color: #0056b3;
 }
 
-/* Pie de página del formulario */
 .auth-footer-link {
   margin-top: 20px;
   font-size: 0.9em;
