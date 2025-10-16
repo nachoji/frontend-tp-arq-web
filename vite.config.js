@@ -15,4 +15,9 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    port: 3000,   // cambia el puerto a 3000
+    open: true,   // abre automáticamente el navegador al iniciar
+  }
 })
+
