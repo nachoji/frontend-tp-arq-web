@@ -1,19 +1,25 @@
 <template>
-  <div :class="['articulo-card', articulo.tipo, tipoVista]">
-    <img :src="articulo.imagenUrl" :alt="articulo.titulo" class="articulo-imagen" />
+  <router-link
+    :to="{ name: 'articulo-detalle', params: { slug: articulo.slug } }"
+    :class="['articulo-card', tipoVista]"
+  >
+    <img :src="articulo.imagenUrl" :alt="articulo.title" class="articulo-imagen" />
 
     <div class="articulo-contenido">
-      <h3 class="articulo-titulo">{{ articulo.titulo }}</h3>
+      <h3 class="articulo-titulo">{{ articulo.title }}</h3>
 
-      <p v-if="articulo.resumen && articulo.tipo === 'grande'" class="articulo-resumen">
-        {{ articulo.resumen }}
+      <p
+        v-if="tipoVista === 'principal-grande' || tipoVista === 'secundaria-columna'"
+        class="articulo-resumen"
+      >
+        {{ articulo.excerpt }}
       </p>
 
       <p class="articulo-meta">
-        <span v-if="tipoVista !== 'miniatura-card'" class="autor">{{ articulo.autor }}</span>
+        <span v-if="tipoVista !== 'miniatura-card'" class="autor">{{ articulo.author }}</span>
       </p>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script setup>
@@ -125,5 +131,57 @@ defineProps({
   margin-top: 10px;
   line-height: 1.2;
   font-weight: bold;
+}
+
+.articulo-card.principal-grande {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  grid-column: 1 / -1;
+}
+
+.articulo-card.principal-grande .articulo-imagen {
+  max-height: 500px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+
+.articulo-card.principal-grande .articulo-titulo {
+  font-size: 3em;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.articulo-card.principal-grande .articulo-resumen {
+  display: block;
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.articulo-card.secundaria-columna {
+  display: flex;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.articulo-card.secundaria-columna .articulo-imagen {
+  width: 35%;
+  min-width: 150px;
+  max-height: 120px;
+  margin-bottom: 0;
+  border-radius: 4px;
+}
+
+.articulo-card.secundaria-columna .articulo-contenido {
+  width: 65%;
+}
+
+.articulo-card.secundaria-columna .articulo-titulo {
+  font-size: 1.2em;
+  line-height: 1.3;
+  font-weight: 600;
 }
 </style>

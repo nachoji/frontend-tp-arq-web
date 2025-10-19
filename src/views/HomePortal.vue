@@ -1,61 +1,30 @@
 <template>
   <div>
-    <BarraSuperior />
-
-    <header class="portal-header-principal">
-      <div class="header-inner">
-        <img src="/logo.svg" alt="PortalDev News Logo" class="logo-img" />
-
-        <div class="header-acciones">
-          <router-link to="/registro" class="btn-suscripcion">Registrate GRATIS</router-link>
-          <router-link to="/iniciar-sesion" class="btn-ingreso">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-person-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
-              />
-            </svg>
-            Ingresar
-          </router-link>
-        </div>
-      </div>
-    </header>
-
-    <nav class="portal-nav-menu">
-      <div class="menu-inner">
-        <SearchBar />
-        <a href="#">ÚLTIMO MOMENTO</a>
-        <a href="#">POLÍTICA</a>
-        <a href="#">ECONOMÍA</a>
-        <a href="#">RURAL</a>
-        <a href="#">SOCIEDAD</a>
-        <a href="#">MUNDO</a>
-        <a href="#">DEPORTES</a>
-        <a href="#">ESPECTÁCULOS</a>
-      </div>
-    </nav>
+    <PortalHeader />
 
     <main class="portal-principal-grid">
       <section class="columna-principal-noticia">
         <div class="seccion-principal-noticia">
           <ArticuloCard
+            v-if="articuloDestacado"
+            :key="articuloDestacado.slug || articuloDestacado._id"
+            :articulo="articuloDestacado"
+            tipo-vista="principal-grande"
+          />
+
+          <ArticuloCard
             v-for="articulo in articulosPrincipales"
-            :key="articulo.id"
+            :key="articulo.slug || articulo._id"
             :articulo="articulo"
+            tipo-vista="secundaria-columna"
           />
         </div>
       </section>
 
       <aside class="columna-lateral-feed">
         <ArticuloCard
-          v-for="articulo in feedArticulos.slice(0, 2)"
-          :key="articulo.id"
+          v-for="articulo in feedArticulos"
+          :key="articulo.slug || articulo._id"
           :articulo="articulo"
           tipo-vista="secundaria-lateral"
         />
@@ -65,7 +34,7 @@
     <section class="portal-fila-inferior">
       <ArticuloCard
         v-for="articulo in articulosFilaInferior"
-        :key="articulo.id"
+        :key="articulo.slug || articulo._id"
         :articulo="articulo"
         tipo-vista="miniatura-card"
       />
@@ -78,14 +47,43 @@
 </template>
 
 <script setup>
-import { noticiasPrincipales, feedArticulos, noticiasFilaInferior } from '@/data/mockData.js'
+import { ref, onMounted } from 'vue'
+import PortalHeader from '@/components/PortalHeader.vue'
 import ArticuloCard from '@/components/ArticuloCard.vue'
-import BarraSuperior from '@/components/BarraSuperior.vue'
-import SearchBar from '@/components/SearchBar.vue'
-import { ref } from 'vue'
 
-const articulosPrincipales = ref(noticiasPrincipales)
-const articulosFilaInferior = ref(noticiasFilaInferior)
+const articuloDestacado = ref(null)
+const articulosPrincipales = ref([])
+const feedArticulos = ref([])
+const articulosFilaInferior = ref([])
+
+const fetchArticulos = async () => {
+  try {
+    const response = await fetch('/api/articles?limit=15')
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`)
+    }
+
+    const jsonResponse = await response.json()
+    const articulos = jsonResponse.data.articles
+
+    if (articulos && articulos.length > 0) {
+      articuloDestacado.value = articulos[0]
+
+      articulosPrincipales.value = articulos.slice(1, 3)
+
+      feedArticulos.value = articulos.slice(3, 5)
+
+      articulosFilaInferior.value = articulos.slice(5)
+    }
+  } catch (error) {
+    console.error('Error al obtener los artículos de la API:', error)
+  }
+}
+
+onMounted(() => {
+  fetchArticulos()
+})
 </script>
 
 <style scoped>
